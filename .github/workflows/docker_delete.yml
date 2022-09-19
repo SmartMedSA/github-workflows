@@ -12,7 +12,10 @@ on:
       tag:
         required: false
         type: string
-
+      name:
+        required: false
+        type: string
+        default: ''
     secrets:
       token:
         required: true
@@ -25,6 +28,6 @@ jobs:
         uses: bots-house/ghcr-delete-image-action@v1.0.0
         with:
           owner: ${{ github.repository_owner }}
-          name: ${{ github.event.repository.name }}
+          name: ${{ inputs.name != '' && inputs.name || github.event.repository.name }}
           token: ${{ secrets.token }}
           tag: ${{ inputs.tag }}

@@ -96,6 +96,13 @@ jobs:
             -w ${{ inputs.workspace }} \
             -var-file=<(printenv WP_VARS_HCL)
 
+      - name: run - wpoutputs
+        id: wpoutputs
+        run: |
+          if [ -d ".wpoutputs" ]; then
             for file in .wpoutputs/*; do
-              echo "::set-output name=${file}::$(<${file})"
+              echo "::set-output name=${file//.wpoutputs\/}::$(<${file})"
             done
+            else
+              echo "Directory .wpoutputs/ does not exists, no outputs."
+          fi

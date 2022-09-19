@@ -68,42 +68,4 @@ jobs:
           cache-from: |
             type=registry,ref=${{ steps.docker_metadata.outputs.tags }}
             type=registry,ref=${{ inputs.registry }}/${{ steps.tolower_image.outputs.lowercase }}:${{ github.event.repository.default_branch }}
-          cache-to: type=inline 
-
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: checkout
-        uses: actions/checkout@v3
-
-      - name: docker - login
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ inputs.registry }}
-          username: ${{ inputs.username }}
-          password: ${{ secrets.token }}
- 
-      - name: docker - composer run test
-        shell: bash
-        run: |
-          docker run --rm --env-file .env.test ${{ needs.build.outputs.tags }} composer run test
-
-  lint:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: checkout
-        uses: actions/checkout@v3
-
-      - name: docker - login
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ inputs.registry }}
-          username: ${{ inputs.username }}
-          password: ${{ secrets.token }}
-
-      - name: docker - composer run check
-        shell: bash
-        run: |
-          docker run --rm --env-file .env.test ${{ needs.build.outputs.tags }} composer run check
+          cache-to: type=inline

@@ -19,7 +19,11 @@ on:
       context:
         required: false
         type: string
-        default: .
+        default: '.'
+      name:
+        type: string
+        required: false
+        default: ''
     secrets:
       token:
         required: true
@@ -57,10 +61,10 @@ jobs:
         id: docker_metadata
         uses: docker/metadata-action@v4
         with:
-          images: ${{ inputs.registry }}/${{ steps.tolower_image.outputs.lowercase }}
+          images: ${{ inputs.registry }}/${{ steps.tolower_image.outputs.lowercase }}${{ inputs.name != '' && /inputs.name  }}
           flavor: |
             latest=false
-      
+
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2

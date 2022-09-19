@@ -61,7 +61,7 @@ jobs:
         id: docker_metadata
         uses: docker/metadata-action@v4
         with:
-          images: ${{ inputs.registry }}/${{ steps.tolower_image.outputs.lowercase }}${{ inputs.name != '' && /inputs.name  }}
+          images: ${{ inputs.registry }}/${{ steps.tolower_image.outputs.lowercase }}${{ inputs.name != '' && format('{{/ {0} }}', inputs.name)  }}
           flavor: |
             latest=false
 

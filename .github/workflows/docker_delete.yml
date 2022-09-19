@@ -12,6 +12,7 @@ on:
       tag:
         required: false
         type: string
+
     secrets:
       token:
         required: true

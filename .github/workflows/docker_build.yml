@@ -31,7 +31,7 @@ jobs:
       contents: read
       packages: write
     concurrency: 
-      group: ${{ ( inputs.image != '' && (format('{0}-{1}', github.ref , inputs.image))) || github.ref }}
+      group: ${{ ( inputs.image }}
       cancel-in-progress: true
     outputs:
       tags: ${{ steps.docker_metadata.outputs.tags }}

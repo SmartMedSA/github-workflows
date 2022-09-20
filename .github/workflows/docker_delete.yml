@@ -28,6 +28,6 @@ jobs:
         uses: bots-house/ghcr-delete-image-action@v1.0.0
         with:
           owner: ${{ github.repository_owner }}
-          name: ${{ inputs.name != '' && inputs.name || github.event.repository.name }}
+          name: ${{ inputs.name != '' && (inputs.name) || github.event.repository.name }}
           token: ${{ secrets.token }}
           tag: ${{ inputs.tag }}

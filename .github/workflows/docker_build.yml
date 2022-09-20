@@ -35,7 +35,7 @@ jobs:
       contents: read
       packages: write
     concurrency: 
-      group: ${{ (inputs.name != '' && github.ref-inputs.name) || github.ref }}
+      group: ${{ (inputs.name != '' && ${{github.ref}}-${{inputs.name}}) || github.ref }}
       cancel-in-progress: true
     outputs:
       tags: ${{ steps.docker_metadata.outputs.tags }}

@@ -3,6 +3,12 @@ name: Docker Build
 on:
   workflow_call:
     outputs:
+      image_name:
+        description: "Docker image name built"
+        value: ${{ jobs.build.outputs.image_name }}
+      tag_name:
+        description: "Docker tag built"
+        value: ${{ jobs.build.outputs.tag_name }}
       tags:
         description: "Docker tags built"
         value: ${{ jobs.build.outputs.tags }}

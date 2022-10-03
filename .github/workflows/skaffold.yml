@@ -1,0 +1,43 @@
+name: Waypoint
+
+on:
+  workflow_call:
+    inputs:
+      cmd:
+        description: Waypoint cmd to execute. Allowed values are up, destroy. Default to up.
+        type: string
+        default: skaffold deploy
+        required: false
+      environment:
+        required: false
+        type: string
+      workspace:
+        required: false
+        type: string
+      tag:
+        required: false
+        type: string
+      helm_dir:
+        required: false
+        type: string
+
+jobs:
+    skaffold:
+      runs-on: ubuntu-latest
+      outputs:
+        host: ${{ steps.test-host.outputs.host }}
+      steps:
+        - name: checkout
+          uses: actions/checkout@v3
+
+        - name: install skaffold
+          run: |
+            curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
+            sudo install skaffold /usr/local/bin/
+          shell: bash
+        - name: run fake deploy
+          run: |
+            skaffold dev
+          shell: bash
+          continue-on-error: true
+

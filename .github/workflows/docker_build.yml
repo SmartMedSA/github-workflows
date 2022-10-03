@@ -34,6 +34,8 @@ jobs:
       group: ${{ inputs.image }}
       cancel-in-progress: true
     outputs:
+      image_name: ${{ steps.split.outputs._0 }}
+      tag_name: ${{ steps.split.outputs._1 }}
       tags: ${{ steps.docker_metadata.outputs.tags }}
 
     steps:
@@ -76,3 +78,9 @@ jobs:
             type=registry,ref=${{ steps.docker_metadata.outputs.tags }}-cache
             type=registry,ref=${{ inputs.registry }}/${{ steps.tolower_image.outputs.lowercase }}:${{ github.event.repository.default_branch }}
           cache-to: type=registry,mode=max,ref=${{ steps.docker_metadata.outputs.tags }}-cache
+
+      - uses: jungwinter/split@v2
+        id: split
+        with:
+          msg: ${{ steps.docker_metadata.outputs.tags }}
+          separator: ":"

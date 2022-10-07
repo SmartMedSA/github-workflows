@@ -3,8 +3,8 @@ name: Waypoint
 on:
   workflow_call:
     inputs:
-      operation:
-        description: Waypoint operation to execute. Allowed values are up, destroy. Default to up.
+      cmd:
+        description: Waypoint cmd to execute. Allowed values are up, destroy. Default to up.
         type: string
         default: up
         required: false
@@ -92,10 +92,17 @@ jobs:
           WP_VARS_HCL: ${{ secrets.WP_VARS_HCL }}
         run: |
           waypoint init -plain
-          waypoint ${{ inputs.operation }} -plain \
+          waypoint ${{ inputs.cmd }} -plain \
             -w ${{ inputs.workspace }} \
             -var-file=<(printenv WP_VARS_HCL)
 
+      - name: run - wpoutputs
+        id: wpoutputs
+        run: |
+          if [ -d ".wpoutputs" ]; then
             for file in .wpoutputs/*; do
-              echo "::set-output name=${file}::$(<${file})"
+              echo "::set-output name=${file//.wpoutputs\/}::$(<${file})"
             done
+            else
+              echo "Directory .wpoutputs/ does not exists, no outputs."
+          fi

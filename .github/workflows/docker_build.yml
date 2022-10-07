@@ -3,6 +3,12 @@ name: Docker Build
 on:
   workflow_call:
     outputs:
+      image_name:
+        description: "Docker image name built"
+        value: ${{ jobs.build.outputs.image_name }}
+      tag_name:
+        description: "Docker tag built"
+        value: ${{ jobs.build.outputs.tag_name }}
       tags:
         description: "Docker tags built"
         value: ${{ jobs.build.outputs.tags }}
@@ -16,6 +22,10 @@ on:
       image:
         required: true
         type: string
+      context:
+        required: false
+        type: string
+        default: '.'
     secrets:
       token:
         required: true
@@ -26,7 +36,12 @@ jobs:
     permissions:
       contents: read
       packages: write
+    concurrency: 
+      group: ${{ inputs.image }}
+      cancel-in-progress: true
     outputs:
+      image_name: ${{ steps.split.outputs._0 }}
+      tag_name: ${{ steps.split.outputs._1 }}
       tags: ${{ steps.docker_metadata.outputs.tags }}
 
     steps:
@@ -36,7 +51,7 @@ jobs:
           string: ${{ inputs.image }}
 
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.0.2
 
       - name: docker - login
         id: docker_login
@@ -53,7 +68,7 @@ jobs:
           images: ${{ inputs.registry }}/${{ steps.tolower_image.outputs.lowercase }}
           flavor: |
             latest=false
-      
+
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
@@ -61,49 +76,17 @@ jobs:
       - name: Build and cache
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ${{ inputs.context }}
           push: true
           tags: ${{ steps.docker_metadata.outputs.tags }}
           labels: ${{ steps.docker_metadata.outputs.labels }}
           cache-from: |
-            type=registry,ref=${{ steps.docker_metadata.outputs.tags }}
+            type=registry,ref=${{ steps.docker_metadata.outputs.tags }}-cache
             type=registry,ref=${{ inputs.registry }}/${{ steps.tolower_image.outputs.lowercase }}:${{ github.event.repository.default_branch }}
-          cache-to: type=inline 
+          cache-to: type=registry,mode=max,ref=${{ steps.docker_metadata.outputs.tags }}-cache
 
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: checkout
-        uses: actions/checkout@v3
-
-      - name: docker - login
-        uses: docker/login-action@v2
+      - uses: jungwinter/split@v2
+        id: split
         with:
-          registry: ${{ inputs.registry }}
-          username: ${{ inputs.username }}
-          password: ${{ secrets.token }}
- 
-      - name: docker - composer run test
-        shell: bash
-        run: |
-          docker run --rm --env-file .env.test ${{ needs.build.outputs.tags }} composer run test
-
-  lint:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: checkout
-        uses: actions/checkout@v3
-
-      - name: docker - login
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ inputs.registry }}
-          username: ${{ inputs.username }}
-          password: ${{ secrets.token }}
-
-      - name: docker - composer run check
-        shell: bash
-        run: |
-          docker run --rm --env-file .env.test ${{ needs.build.outputs.tags }} composer run check
+          msg: ${{ steps.docker_metadata.outputs.tags }}
+          separator: ":"

@@ -10,15 +10,18 @@ on:
       workspace:
         required: true
         type: string
+      cmd:
+        required: true
+        type: string
     secrets:
       token:
         required: true
       kubeconfig:
-        required: false
+        required: true
 jobs:
   skaffold_deploy:
     runs-on: ubuntu-latest
-    environment:
+    env:
       WORKSPACE: ${{ inputs.workspace }}
       ENVIRONMENT: ${{ inputs.environment }}
     steps:
@@ -31,16 +34,27 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.token }}
-
+          
+      - name: base64-to-file - KUBECONFIG
+        id: kubeconfig
+        uses: timheuer/base64-to-file@v1.1
+        with:
+          fileName: 'config'
+          encodedString: ${{ secrets.kubeconfig }}
+          
       - uses: yokawasa/action-setup-kube-tools@v0.7.1
         with:
           setup-tools: |
             kubectl
+            helm
             skaffold
+            kustomize
+          helm: 3.10.0
           kubectl: 1.25.2
           skaffold: 1.39.2
+          kustomize: 4.0.5
 
       - name: deploy
         run: |
-          echo hello
+          ${{ inputs.cmd }}
         shell: bash

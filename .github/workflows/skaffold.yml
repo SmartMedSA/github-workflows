@@ -23,6 +23,10 @@ on:
         required: true
       ENV_VARS:
         required: false
+      INGRESS_HOST:
+        required: false
+      INGRESS_TARGET:
+        required: false
 
 jobs:
   skaffold_deploy:

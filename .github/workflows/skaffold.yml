@@ -78,7 +78,9 @@ jobs:
           kubeconfig: ${{ secrets.KUBECONFIG }}
 
       - name: deploy
+        env:
+          INGRESS_HOST: ${{ secrets.INGRESS_HOST }}
+          INGRESS_TARGET: ${{ secrets.INGRESS_TARGET }}
         run: |
-          skaffold config set -k minikube local-cluster false
           ${{ inputs.cmd }}
         shell: bash

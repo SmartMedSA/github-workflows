@@ -62,9 +62,9 @@ jobs:
             skaffold
             kustomize
           helm: 3.10.0
-          kubectl: 1.25.2
+          kubectl: 1.22.0
           skaffold: 1.39.2
-          kustomize: 4.0.5
+          kustomize: 4.5.7
 
       - name: script - helm dependency update
         if: inputs.helm_dir
@@ -79,5 +79,6 @@ jobs:
 
       - name: deploy
         run: |
+          skaffold config set -k minikube local-cluster false
           ${{ inputs.cmd }}
         shell: bash

@@ -43,7 +43,6 @@ jobs:
           password: ${{ secrets.token }}
           
       - name: source env
-        if: secrets.ENV_VARS
         env:
           VARS: ${{ secrets.ENV_VARS }}
         run: |

@@ -23,7 +23,6 @@ on:
         required: true
       ENV_VARS:
         required: false
-        type: string
 
 jobs:
   skaffold_deploy:

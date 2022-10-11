@@ -19,9 +19,9 @@ on:
     secrets:
       token:
         required: true
-      kubeconfig:
+      KUBECONFIG:
         required: true
-      env_vars:
+      ENV_VARS:
         required: false
         type: string
 
@@ -31,6 +31,7 @@ jobs:
     env:
       WORKSPACE: ${{ inputs.workspace }}
       ENVIRONMENT: ${{ inputs.environment }}
+    environment: ${{ inputs.environment }}
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -43,9 +44,9 @@ jobs:
           password: ${{ secrets.token }}
           
       - name: source env
-        if: ${{ secrets.env_vars }}
+        if: ${{ secrets.ENV_VARS }}
         env:
-          VARS: ${{ secrets.env_vars }}
+          VARS: ${{ secrets.ENV_VARS }}
         run: |
           set -o allexport
           source <(printenv VARS)

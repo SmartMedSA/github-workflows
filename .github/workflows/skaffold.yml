@@ -13,11 +13,18 @@ on:
       cmd:
         required: true
         type: string
+      helm_dir:
+        required: false
+        type: string
     secrets:
       token:
         required: true
       kubeconfig:
         required: true
+      env_vars:
+        required: false
+        type: string
+
 jobs:
   skaffold_deploy:
     runs-on: ubuntu-latest
@@ -35,13 +42,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.token }}
           
-      - name: base64-to-file - KUBECONFIG
-        id: kubeconfig
-        uses: timheuer/base64-to-file@v1.1
-        with:
-          fileName: 'config'
-          encodedString: ${{ secrets.kubeconfig }}
-          
+      - name: source env
+        if: ${{ secrets.env_vars }}
+        env:
+          VARS: ${{ secrets.env_vars }}
+        run: |
+          set -o allexport
+          source <(printenv VARS)
+          set +o allexport
+
       - uses: yokawasa/action-setup-kube-tools@v0.7.1
         with:
           setup-tools: |
@@ -53,6 +62,17 @@ jobs:
           kubectl: 1.25.2
           skaffold: 1.39.2
           kustomize: 4.0.5
+
+      - name: script - helm dependency update
+        if: inputs.helm_dir
+        run: |
+          helm dependency update ${{ inputs.helm_dir }}
+
+      - uses: azure/k8s-set-context@v2
+        name: set kube context
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
 
       - name: deploy
         run: |

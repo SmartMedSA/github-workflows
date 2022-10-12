@@ -34,6 +34,7 @@ jobs:
     env:
       WORKSPACE: ${{ inputs.workspace }}
       ENVIRONMENT: ${{ inputs.environment }}
+      SKAFFOLD_DEFAULT_REPO: ghcr.io/smartmedsa/med-pro
     environment: ${{ inputs.environment }}
     steps:
       - name: checkout
@@ -62,9 +63,9 @@ jobs:
             skaffold
             kustomize
           helm: 3.10.0
-          kubectl: 1.22.0
+          kubectl: 1.25.2
           skaffold: 1.39.2
-          kustomize: 4.5.7
+          kustomize: 4.0.5
 
       - name: script - helm dependency update
         if: inputs.helm_dir

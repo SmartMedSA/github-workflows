@@ -83,5 +83,6 @@ jobs:
           INGRESS_HOST: ${{ secrets.INGRESS_HOST }}
           INGRESS_TARGET: ${{ secrets.INGRESS_TARGET }}
         run: |
+          minikube stop
           ${{ inputs.cmd }}
         shell: bash

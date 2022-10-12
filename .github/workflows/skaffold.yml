@@ -46,14 +46,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.token }}
-          
-      - name: source env
-        env:
-          VARS: ${{ secrets.ENV_VARS }}
-        run: |
-          set -o allexport
-          source <(printenv VARS)
-          set +o allexport
 
       - uses: yokawasa/action-setup-kube-tools@v0.7.1
         with:
@@ -78,11 +70,20 @@ jobs:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBECONFIG }}
 
+      - name: minikube start
+        run: |
+          minikube start --driver=docker
+
       - name: deploy
         env:
           INGRESS_HOST: ${{ secrets.INGRESS_HOST }}
           INGRESS_TARGET: ${{ secrets.INGRESS_TARGET }}
+          env:
+            VARS: ${{ secrets.ENV_VARS }}
         run: |
-          minikube start --driver=docker
+          set -o allexport
+          source <(printenv VARS)
+          set +o allexport
+          
           ${{ inputs.cmd }}
         shell: bash

@@ -78,8 +78,7 @@ jobs:
         env:
           INGRESS_HOST: ${{ secrets.INGRESS_HOST }}
           INGRESS_TARGET: ${{ secrets.INGRESS_TARGET }}
-          env:
-            VARS: ${{ secrets.ENV_VARS }}
+          VARS: ${{ secrets.ENV_VARS }}
         run: |
           set -o allexport
           source <(printenv VARS)

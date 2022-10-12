@@ -79,6 +79,7 @@ jobs:
           INGRESS_HOST: ${{ secrets.INGRESS_HOST }}
           INGRESS_TARGET: ${{ secrets.INGRESS_TARGET }}
           VARS: ${{ secrets.ENV_VARS }}
+          NEXTTAUTH_URL: ${{ secrets.INGRESS_HOST }}
         run: |
           set -o allexport
           source <(printenv VARS)
@@ -86,3 +87,7 @@ jobs:
           
           ${{ inputs.cmd }}
         shell: bash
+      - name: echo env file
+        run: |
+          cat .env
+        if: always()

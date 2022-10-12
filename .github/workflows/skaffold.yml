@@ -64,15 +64,16 @@ jobs:
         run: |
           helm dependency update ${{ inputs.helm_dir }}
 
+      - name: minikube start
+        run: |
+          minikube start --driver=docker
+  
       - uses: azure/k8s-set-context@v2
         name: set kube context
         with:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBECONFIG }}
 
-      - name: minikube start
-        run: |
-          minikube start --driver=docker
 
       - name: deploy
         env:

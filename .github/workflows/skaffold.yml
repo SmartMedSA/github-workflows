@@ -74,10 +74,6 @@ jobs:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBECONFIG }}
 
-      - name: check kube ctxs
-        run: |
-          kubectl config get-contexts
-          kubectl config current-context
       - name: deploy
         env:
           INGRESS_HOST: ${{ secrets.INGRESS_HOST }}

@@ -1,4 +1,3 @@
-
 name: skaffold
 
 on:
@@ -6,6 +5,9 @@ on:
     inputs:
       environment:
         required: true
+        type: string
+      environment_url:
+        required: false
         type: string
       workspace:
         required: true
@@ -23,22 +25,20 @@ on:
         required: true
       ENV_VARS:
         required: false
-      INGRESS_HOST:
-        required: false
-      INGRESS_TARGET:
-        required: false
       SKAFFOLD_KUBE_CONTEXT:
         required: false
       SKAFFOLD_NAMESPACE:
         required: false
-        
+
 jobs:
   skaffold_deploy:
     runs-on: ubuntu-latest
+    environment: 
+        name: ${{ inputs.environment }}
+        url: ${{ inputs.environment_url }}
     env:
       WORKSPACE: ${{ inputs.workspace }}
       ENVIRONMENT: ${{ inputs.environment }}
-    environment: ${{ inputs.environment }}
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -60,10 +60,6 @@ jobs:
         if: inputs.helm_dir
         run: |
           helm dependency update ${{ inputs.helm_dir }}
-
-      - name: minikube start
-        run: |
-          minikube start --driver=docker
   
       - uses: azure/k8s-set-context@v2
         name: set kube context
@@ -73,16 +69,14 @@ jobs:
 
       - name: deploy
         env:
-          INGRESS_HOST: ${{ secrets.INGRESS_HOST }}
-          INGRESS_TARGET: ${{ secrets.INGRESS_TARGET }}
-          VARS: ${{ secrets.ENV_VARS }}
-          NEXTAUTH_URL: ${{ secrets.INGRESS_HOST }}
-          SKAFFOLD_KUBE_CONTEXT: ${{ secrets.SKAFFOLD_KUBE_CONTEXT }}
+          SKAFFOLD_DETECT_MINIKUBE: "false"
+          SKAFFOLD_UPDATE_CHECK: "false"
           SKAFFOLD_NAMESPACE: ${{ secrets.SKAFFOLD_NAMESPACE }}
-          SKAFFOLD_UPDATE_CHECK: false
+          SKAFFOLD_KUBE_CONTEXT: ${{ secrets.SKAFFOLD_KUBE_CONTEXT }}
+          ENV_VARS: ${{ secrets.ENV_VARS }}
         run: |
           set -o allexport
-          source <(printenv VARS)
+          source <(printenv ENV_VARS)
           set +o allexport
           
           ${{ inputs.cmd }}

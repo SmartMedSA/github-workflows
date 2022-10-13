@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: 
         name: ${{ inputs.environment }}
-        url: ${{ inputs.environment_url }}
+        url: ${{ (inputs.environment_url) || (steps.deploy.outputs.host) }}
     env:
       WORKSPACE: ${{ inputs.workspace }}
       ENVIRONMENT: ${{ inputs.environment }}
@@ -68,6 +68,7 @@ jobs:
           kubeconfig: ${{ secrets.KUBECONFIG }}
 
       - name: deploy
+        id: deploy
         env:
           SKAFFOLD_DETECT_MINIKUBE: "false"
           SKAFFOLD_UPDATE_CHECK: "false"

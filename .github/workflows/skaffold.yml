@@ -27,14 +27,17 @@ on:
         required: false
       INGRESS_TARGET:
         required: false
-
+      SKAFFOLD_KUBE_CONTEXT:
+        required: false
+      SKAFFOLD_NAMESPACE:
+        required: false
+        
 jobs:
   skaffold_deploy:
     runs-on: ubuntu-latest
     env:
       WORKSPACE: ${{ inputs.workspace }}
       ENVIRONMENT: ${{ inputs.environment }}
-      SKAFFOLD_DEFAULT_REPO: ghcr.io/smartmedsa/med-pro
     environment: ${{ inputs.environment }}
     steps:
       - name: checkout
@@ -50,14 +53,8 @@ jobs:
       - uses: yokawasa/action-setup-kube-tools@v0.7.1
         with:
           setup-tools: |
-            kubectl
-            helm
             skaffold
-            kustomize
-          helm: 3.10.0
-          kubectl: 1.25.2
           skaffold: 1.39.2
-          kustomize: 4.0.5
 
       - name: script - helm dependency update
         if: inputs.helm_dir
@@ -80,6 +77,9 @@ jobs:
           INGRESS_TARGET: ${{ secrets.INGRESS_TARGET }}
           VARS: ${{ secrets.ENV_VARS }}
           NEXTAUTH_URL: ${{ secrets.INGRESS_HOST }}
+          SKAFFOLD_KUBE_CONTEXT: ${{ secrets.SKAFFOLD_KUBE_CONTEXT }}
+          SKAFFOLD_NAMESPACE: ${{ secrets.SKAFFOLD_NAMESPACE }}
+          SKAFFOLD_UPDATE_CHECK: false
         run: |
           set -o allexport
           source <(printenv VARS)
@@ -87,7 +87,3 @@ jobs:
           
           ${{ inputs.cmd }}
         shell: bash
-      - name: echo env file
-        run: |
-          cat .env
-        if: always()

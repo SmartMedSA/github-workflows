@@ -18,7 +18,7 @@ on:
       helm_dir:
         required: false
         type: string
-      envsList:
+      envList:
         required: false
         type: string
     secrets:
@@ -35,7 +35,7 @@ on:
 
 jobs:
   skaffold_deploy:
-    if: ${{ (inputs.envsList == '') || (inputs.environment != '' && contains(fromJSON(fromJSON(inputs.envsList)).environments[*].name, inputs.environment )}}
+    if: ${{ (inputs.envList == '') || (inputs.environment != '' && contains(fromJSON(fromJSON(inputs.envList)).environments[*].name, inputs.environment )) }}
     runs-on: ubuntu-latest
     environment: 
         name: ${{ inputs.environment }}

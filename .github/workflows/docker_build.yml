@@ -37,7 +37,7 @@ jobs:
       contents: read
       packages: write
     concurrency: 
-      group: ${{ inputs.image }}
+      group: ${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: true
     outputs:
       image_name: ${{ steps.split.outputs._0 }}

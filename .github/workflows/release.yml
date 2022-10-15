@@ -1,0 +1,11 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - 'master'
+
+release:
+  uses: SmartMedSA/github-workflows/.github/workflows/semantic_release.yml@master
+  secrets:
+    token: ${{ secrets.SMARTMEDBOT_PAT }}

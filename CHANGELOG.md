@@ -1,3 +1,19 @@
+# [1.1.0](https://github.com/SmartMedSA/github-workflows/compare/v1.0.0...v1.1.0) (2022-10-22)
+
+
+### Bug Fixes
+
+* **docker_build:** better group concurrency setting ([aa6763d](https://github.com/SmartMedSA/github-workflows/commit/aa6763d7eca3e95bfcb83b5af97d11752e726279))
+* **docker_delete:** Input required and not supplied: name ([bf7cb17](https://github.com/SmartMedSA/github-workflows/commit/bf7cb1748184dc3fcda5d7bbe21a697f05541215))
+* **skaffold:** correct version for yokawasa/action-setup-kube-tools ([39edd10](https://github.com/SmartMedSA/github-workflows/commit/39edd10fa4631c0d1c165f7dd777dbdacc12a7b7))
+
+
+### Features
+
+* **docker_build:** bump ASzc/change-string-case-action to v3 ([5c97b8f](https://github.com/SmartMedSA/github-workflows/commit/5c97b8ffb5a3dfb57135c7783c4ab261ea1f9e7e))
+* **skaffold:** add sops install action ([511287c](https://github.com/SmartMedSA/github-workflows/commit/511287c129ae8d4bb8f1f049ac7968129a217263))
+* **skaffold:** yokawasa/action-setup-kube-tools bump to v0.8 ([2b9b6b1](https://github.com/SmartMedSA/github-workflows/commit/2b9b6b1e21a63cd5457a769a6c2597a9588fe6d1))
+
 # 1.0.0 (2022-10-15)
 
 

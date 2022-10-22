@@ -12,9 +12,6 @@ on:
       cmd:
         required: true
         type: string
-      helm_dir:
-        required: false
-        type: string
       version:
         required: false
         type: string
@@ -60,11 +57,6 @@ jobs:
           setup-tools: |
             skaffold
           skaffold: ${{ inputs.version }}
-
-      - name: script - helm dependency update
-        if: inputs.helm_dir
-        run: |
-          helm dependency update ${{ inputs.helm_dir }}
   
       - uses: azure/k8s-set-context@v2
         name: set kube context

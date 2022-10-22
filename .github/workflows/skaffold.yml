@@ -9,15 +9,17 @@ on:
       environment_url:
         required: false
         type: string
-      workspace:
-        required: true
-        type: string
       cmd:
         required: true
         type: string
-      helm_dir:
+      version:
         required: false
         type: string
+        default: "1.39.2"
+      sops:
+        required: false
+        type: boolean
+        default: false
     secrets:
       token:
         required: true
@@ -35,10 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: 
         name: ${{ inputs.environment }}
-        url: ${{ (inputs.environment_url != '' && inputs.environment_url ) || steps.deploy.outputs.host }}
-    env:
-      WORKSPACE: ${{ inputs.workspace }}
-      ENVIRONMENT: ${{ inputs.environment }}
+        url: ${{ (inputs.environment_url != '' && inputs.environment_url ) || steps.deploy.outputs.environment_url }}
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -50,16 +49,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.token }}
 
-      - uses: yokawasa/action-setup-kube-tools@v0.7.1
+      - uses: mdgreenwald/mozilla-sops-action@v1.2.0
+        if: inputs.sops
+
+      - uses: yokawasa/action-setup-kube-tools@v0.8.2
         with:
           setup-tools: |
             skaffold
-          skaffold: 1.39.2
-
-      - name: script - helm dependency update
-        if: inputs.helm_dir
-        run: |
-          helm dependency update ${{ inputs.helm_dir }}
+          skaffold: ${{ inputs.version }}
   
       - uses: azure/k8s-set-context@v2
         name: set kube context
@@ -72,8 +69,6 @@ jobs:
         env:
           SKAFFOLD_DETECT_MINIKUBE: "false"
           SKAFFOLD_UPDATE_CHECK: "false"
-          SKAFFOLD_NAMESPACE: ${{ secrets.SKAFFOLD_NAMESPACE }}
-          SKAFFOLD_KUBE_CONTEXT: ${{ secrets.SKAFFOLD_KUBE_CONTEXT }}
           ENV_VARS: ${{ secrets.ENV_VARS }}
         run: |
           set -o allexport

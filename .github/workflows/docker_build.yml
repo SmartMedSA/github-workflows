@@ -37,7 +37,7 @@ jobs:
       contents: read
       packages: write
     concurrency: 
-      group: ${{ github.workflow }}-${{ github.ref }}
+      group: ${{ github.workflow }}-${{ inputs.image}}-${{ github.ref }}
       cancel-in-progress: true
     outputs:
       image_name: ${{ steps.split.outputs._0 }}
@@ -46,7 +46,7 @@ jobs:
 
     steps:
       - id: tolower_image
-        uses: ASzc/change-string-case-action@v2
+        uses: ASzc/change-string-case-action@v3
         with:
           string: ${{ inputs.image }}
 

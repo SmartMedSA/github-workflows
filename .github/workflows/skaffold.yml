@@ -19,6 +19,10 @@ on:
         required: false
         type: string
         default: "1.39.2"
+      sops:
+        required: false
+        type: boolean
+        default: false
     secrets:
       token:
         required: true
@@ -47,6 +51,9 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.token }}
+
+      - uses: mdgreenwald/mozilla-sops-action@v1.2.0
+        if: inputs.sops
 
       - uses: yokawasa/action-setup-kube-tools@v0.8.2
         with:

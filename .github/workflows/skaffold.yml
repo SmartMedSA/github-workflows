@@ -9,15 +9,16 @@ on:
       environment_url:
         required: false
         type: string
-      workspace:
-        required: true
-        type: string
       cmd:
         required: true
         type: string
       helm_dir:
         required: false
         type: string
+      version:
+        required: false
+        type: string
+        default: "1.39.2"
     secrets:
       token:
         required: true
@@ -36,9 +37,6 @@ jobs:
     environment: 
         name: ${{ inputs.environment }}
         url: ${{ (inputs.environment_url != '' && inputs.environment_url ) || steps.deploy.outputs.environment_url }}
-    env:
-      WORKSPACE: ${{ inputs.workspace }}
-      ENVIRONMENT: ${{ inputs.environment }}
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -54,7 +52,7 @@ jobs:
         with:
           setup-tools: |
             skaffold
-          skaffold: 1.39.2
+          skaffold: ${{ inputs.version }}
 
       - name: script - helm dependency update
         if: inputs.helm_dir

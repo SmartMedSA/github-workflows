@@ -48,7 +48,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.token }}
 
-      - uses: yokawasa/action-setup-kube-tools@v0.8
+      - uses: yokawasa/action-setup-kube-tools@v0.8.2
         with:
           setup-tools: |
             skaffold

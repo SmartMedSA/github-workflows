@@ -70,8 +70,6 @@ jobs:
         env:
           SKAFFOLD_DETECT_MINIKUBE: "false"
           SKAFFOLD_UPDATE_CHECK: "false"
-          SKAFFOLD_NAMESPACE: ${{ secrets.SKAFFOLD_NAMESPACE }}
-          SKAFFOLD_KUBE_CONTEXT: ${{ secrets.SKAFFOLD_KUBE_CONTEXT }}
           ENV_VARS: ${{ secrets.ENV_VARS }}
         run: |
           set -o allexport

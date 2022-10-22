@@ -46,7 +46,7 @@ jobs:
 
     steps:
       - id: tolower_image
-        uses: ASzc/change-string-case-action@v2
+        uses: ASzc/change-string-case-action@v3
         with:
           string: ${{ inputs.image }}
 

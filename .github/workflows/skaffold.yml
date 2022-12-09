@@ -27,10 +27,6 @@ on:
         required: true
       ENV_VARS:
         required: false
-      SKAFFOLD_KUBE_CONTEXT:
-        required: false
-      SKAFFOLD_NAMESPACE:
-        required: false
 
 jobs:
   skaffold_deploy:

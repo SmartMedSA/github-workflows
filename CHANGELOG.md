@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/SmartMedSA/github-workflows/compare/v1.1.0...v1.2.0) (2022-12-15)
+
+
+### Features
+
+* **skaffold:** set action-setup-kube-tools v0.9.2 ([55cfe94](https://github.com/SmartMedSA/github-workflows/commit/55cfe94734d91719f56de738191e6c40d00230ed))
+
 # [1.1.0](https://github.com/SmartMedSA/github-workflows/compare/v1.0.0...v1.1.0) (2022-10-22)
 
 

@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/SmartMedSA/github-workflows/compare/v1.2.0...v1.3.0) (2022-12-15)
+
+
+### Features
+
+* upgrade deps actions - fix output warning ([4297a16](https://github.com/SmartMedSA/github-workflows/commit/4297a1631db6f0a30ef33f313c13f8efa97cbbc8))
+
 # [1.2.0](https://github.com/SmartMedSA/github-workflows/compare/v1.1.0...v1.2.0) (2022-12-15)
 
 

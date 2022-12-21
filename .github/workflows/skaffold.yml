@@ -15,7 +15,7 @@ on:
       version:
         required: false
         type: string
-        default: "1.39.2"
+        default: "1.39.4"
       sops:
         required: false
         type: boolean

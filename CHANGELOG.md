@@ -1,3 +1,11 @@
+# [1.5.0](https://github.com/SmartMedSA/github-workflows/compare/v1.4.0...v1.5.0) (2022-12-21)
+
+
+### Features
+
+* **skaffold:** bump default version to 1.39.4 ([a77d23b](https://github.com/SmartMedSA/github-workflows/commit/a77d23bfd9a9a68ed01a29c80f8f28ca851e411b))
+* **skaffold:** bump mdgreenwald/mozilla-sops-action@v1.4 ([9012b97](https://github.com/SmartMedSA/github-workflows/commit/9012b972d14aeedc5737bb2849fddd994a130ab7))
+
 # [1.4.0](https://github.com/SmartMedSA/github-workflows/compare/v1.3.0...v1.4.0) (2022-12-21)
 
 

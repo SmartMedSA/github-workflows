@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/SmartMedSA/github-workflows/compare/v1.3.0...v1.4.0) (2022-12-21)
+
+
+### Features
+
+* **docker_build:** bump actions/checkout version ([c35581f](https://github.com/SmartMedSA/github-workflows/commit/c35581f8471d4a70fd309ac730794882a45b1828))
+
 # [1.3.0](https://github.com/SmartMedSA/github-workflows/compare/v1.2.0...v1.3.0) (2022-12-15)
 
 

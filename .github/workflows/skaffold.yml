@@ -45,7 +45,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.token }}
 
-      - uses: mdgreenwald/mozilla-sops-action@v1.4
+      - uses: mdgreenwald/mozilla-sops-action@v1.4.0
         if: inputs.sops
 
       - uses: yokawasa/action-setup-kube-tools@v0.9.2

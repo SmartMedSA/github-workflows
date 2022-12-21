@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/SmartMedSA/github-workflows/compare/v1.5.0...v1.5.1) (2022-12-21)
+
+
+### Bug Fixes
+
+* **skaffold:** mdgreenwald/mozilla-sops-action version ([b9a46a8](https://github.com/SmartMedSA/github-workflows/commit/b9a46a8a3c824ff347212352b10213d2bed5bfc5))
+
 # [1.5.0](https://github.com/SmartMedSA/github-workflows/compare/v1.4.0...v1.5.0) (2022-12-21)
 
 

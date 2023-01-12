@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/SmartMedSA/github-workflows/compare/v1.5.1...v1.6.0) (2023-01-12)
+
+
+### Features
+
+* bump node version to 18 ([9dd0b0a](https://github.com/SmartMedSA/github-workflows/commit/9dd0b0a52c5f57378244fcf1e9a14bbccc5b4f27))
+
 ## [1.5.1](https://github.com/SmartMedSA/github-workflows/compare/v1.5.0...v1.5.1) (2022-12-21)
 
 

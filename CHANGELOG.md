@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/SmartMedSA/github-workflows/compare/v1.6.0...v1.7.0) (2023-02-20)
+
+
+### Features
+
+* **github/skaffold:** support vals ([c96985c](https://github.com/SmartMedSA/github-workflows/commit/c96985c5861857d9b4569cb85c67f41b775bd490))
+
 # [1.6.0](https://github.com/SmartMedSA/github-workflows/compare/v1.5.1...v1.6.0) (2023-01-12)
 
 

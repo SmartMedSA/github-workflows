@@ -20,6 +20,10 @@ on:
         required: false
         type: boolean
         default: false
+      vals:
+        required: false
+        type: boolean
+        default: false
     secrets:
       token:
         required: true
@@ -47,6 +51,9 @@ jobs:
 
       - uses: mdgreenwald/mozilla-sops-action@v1.4.0
         if: inputs.sops
+
+      - uses: jkroepke/setup-vals@v1
+        if: inputs.vals
 
       - uses: yokawasa/action-setup-kube-tools@v0.9.2
         with:

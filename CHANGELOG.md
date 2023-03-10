@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/SmartMedSA/github-workflows/compare/v1.7.0...v1.8.0) (2023-03-10)
+
+
+### Features
+
+* add support to use smartmedsa private helm chart ([6db93fb](https://github.com/SmartMedSA/github-workflows/commit/6db93fb23349100e53b99456bedddab1b1e496a9))
+
 # [1.7.0](https://github.com/SmartMedSA/github-workflows/compare/v1.6.0...v1.7.0) (2023-02-20)
 
 

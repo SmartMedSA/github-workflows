@@ -1,0 +1,27 @@
+name: sonar analysis
+
+on:
+  workflow_call:
+    secrets:
+      SONAR_TOKEN:
+        required: true
+      SONAR_HOST_URL:
+        required: true
+
+jobs:
+  sonar:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.ref }}-sonar
+      cancel-in-progress: true
+    #skip sonar checks for release back merge
+    if: ${{ ! startsWith(github.event.head_commit.message, 'chore(release)') }}
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}

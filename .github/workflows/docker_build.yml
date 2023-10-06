@@ -71,7 +71,7 @@ jobs:
           images: ${{ inputs.registry }}/${{ steps.tolower_image.outputs.lowercase }}
           flavor: |
             latest=false
-            prefix=${{ inputs.tag_prefix- }}
+            prefix=${{ inputs.tag_prefix }}-
 
       - name: Set up Docker Buildx
         id: buildx

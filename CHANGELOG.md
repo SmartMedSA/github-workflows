@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/SmartMedSA/github-workflows/compare/v1.9.0...v1.9.1) (2024-03-28)
+
+
+### Bug Fixes
+
+* release worflow node version ([4d6ce1c](https://github.com/SmartMedSA/github-workflows/commit/4d6ce1c9203133d569c0d8b0a6841fa0cab6d9e1))
+
 # [1.8.0](https://github.com/SmartMedSA/github-workflows/compare/v1.7.0...v1.8.0) (2023-03-10)
 
 

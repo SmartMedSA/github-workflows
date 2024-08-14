@@ -12,6 +12,10 @@ on:
       tags:
         description: "Docker tags built"
         value: ${{ jobs.build.outputs.tags }}
+      digest:
+        description: "Docker image SHA256 digest"
+        value: ${{ jobs.build.outputs.digest }}
+
     inputs:
       username:
         required: true
@@ -46,6 +50,7 @@ jobs:
       image_name: ${{ steps.split.outputs._0 }}
       tag_name: ${{ steps.split.outputs._1 }}
       tags: ${{ steps.docker_metadata.outputs.tags }}
+      digest: ${{ steps.docker_build.outputs.digest }}
 
     steps:
       - id: tolower_image
@@ -71,13 +76,14 @@ jobs:
           images: ${{ inputs.registry }}/${{ steps.tolower_image.outputs.lowercase }}
           flavor: |
             latest=false
-            prefix=${{ inputs.tag_prefix }}-
+            prefix=${{ inputs.tag_prefix }}
 
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
       
       - name: Build and cache
+        id: docker_build
         uses: docker/build-push-action@v3
         with:
           context: ${{ inputs.context }}

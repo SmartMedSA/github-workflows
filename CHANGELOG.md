@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/SmartMedSA/github-workflows/compare/v1.9.2...v1.10.0) (2024-09-14)
+
+
+### Features
+
+* output image digest ([fd92bdd](https://github.com/SmartMedSA/github-workflows/commit/fd92bdd9851b446ba0e44e40df3d10674e00ad87))
+
 ## [1.9.1](https://github.com/SmartMedSA/github-workflows/compare/v1.9.0...v1.9.1) (2024-03-28)
 
 

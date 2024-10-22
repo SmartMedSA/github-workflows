@@ -33,9 +33,6 @@ on:
         required: false
         type: string
         default: '.'
-    secrets:
-      token:
-        required: true
 
 jobs:
   build:
@@ -67,7 +64,7 @@ jobs:
         with:
           registry: ${{ inputs.registry }}
           username: ${{ inputs.username }}
-          password: ${{ secrets.token }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: docker - extract metadata
         id: docker_metadata

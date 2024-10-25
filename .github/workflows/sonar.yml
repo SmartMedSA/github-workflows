@@ -10,7 +10,7 @@ on:
 
 jobs:
   sonar:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     concurrency:
       group: ${{ github.ref }}-sonar
       cancel-in-progress: true

@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: npm i -g @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git semantic-release conventional-changelog-conventionalcommits @saithodev/semantic-release-backmerge
 
+      - name: print country
+        run: echo $COUNTRY
+
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.token }}

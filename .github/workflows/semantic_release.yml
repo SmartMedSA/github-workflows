@@ -15,7 +15,7 @@ jobs:
     name: semantic release
     runs-on: ubuntu-latest
     env:
-      COUNTRY_CODE: ${{ inputs.country-code }}
+      COUNTRY: ${{ inputs.country }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -33,5 +33,5 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.token }}
-          COUNTRY_CODE: ${{ env.COUNTRY_CODE }}
+          COUNTRY: ${{ env.COUNTRY }}
         run: npx semantic-release

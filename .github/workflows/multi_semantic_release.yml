@@ -40,5 +40,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.token }}
           # Pass the dynamic country code to your release config
-          COUNTRY_CODE: ${{ matrix.country }}
+          COUNTRY: ${{ matrix.country }}
         run: npx semantic-release

@@ -1,3 +1,19 @@
+# [2.1.0](https://github.com/SmartMedSA/github-workflows/compare/v2.0.0...v2.1.0) (2025-02-21)
+
+
+### Bug Fixes
+
+* change country field to not be required for compatibility reasons ([ab8fbf4](https://github.com/SmartMedSA/github-workflows/commit/ab8fbf4d9a1995225a135406a4b0b7f37d792f81))
+* env var name ([a4db581](https://github.com/SmartMedSA/github-workflows/commit/a4db581c6ae4368dab905227f8a37179b3b8a42c))
+* force checkout the main branch ([e33cdcd](https://github.com/SmartMedSA/github-workflows/commit/e33cdcd27a19705e59c2942ea37cd99d36924fc7))
+* remove npm ci ([3fcff64](https://github.com/SmartMedSA/github-workflows/commit/3fcff643ede087c72236fc73d48de89c66765511))
+* typo ([fcf6057](https://github.com/SmartMedSA/github-workflows/commit/fcf6057ccb72247340982b1d57b2315c7db28d5e))
+
+
+### Features
+
+* add multi semantic release ([e727892](https://github.com/SmartMedSA/github-workflows/commit/e727892fb1a713425373cde476acca596b98adb0))
+
 # [1.10.0](https://github.com/SmartMedSA/github-workflows/compare/v1.9.2...v1.10.0) (2024-09-14)
 
 

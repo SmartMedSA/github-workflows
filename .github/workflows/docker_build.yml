@@ -39,7 +39,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     permissions:
       contents: read
       packages: write
@@ -54,7 +54,7 @@ jobs:
 
     steps:
       - id: tolower_image
-        uses: ASzc/change-string-case-action@v5
+        uses: ASzc/change-string-case-action@d0603cd0a7dd490be678164909f65c7737470a7f
         with:
           string: ${{ inputs.image }}
 
@@ -95,7 +95,7 @@ jobs:
             type=registry,ref=${{ inputs.registry }}/${{ steps.tolower_image.outputs.lowercase }}:${{ github.event.repository.default_branch }}
           cache-to: type=registry,mode=max,ref=${{ steps.docker_metadata.outputs.tags }}-cache
 
-      - uses: jungwinter/split@v2
+      - uses: jungwinter/split@7f51d99e7cc1f147f6f99be75acf5e641930af88
         id: split
         with:
           msg: ${{ steps.docker_metadata.outputs.tags }}

@@ -1,0 +1,117 @@
+name: Docker Build pro
+
+on:
+  workflow_call:
+    outputs:
+      image_name:
+        description: "Docker image name built"
+        value: ${{ jobs.build.outputs.image_name }}
+      tag_name:
+        description: "Docker tag built"
+        value: ${{ jobs.build.outputs.tag_name }}
+      tags:
+        description: "Docker tags built"
+        value: ${{ jobs.build.outputs.tags }}
+      digest:
+        description: "Docker image SHA256 digest"
+        value: ${{ jobs.build.outputs.digest }}
+
+    inputs:
+      username:
+        required: true
+        type: string
+      registry:
+        required: true
+        type: string
+      image:
+        required: true
+        type: string
+      ws:
+        required: true
+        type: string
+      sops:
+        required: false
+        type: boolean
+        default: false
+      context:
+        required: false
+        type: string
+        default: '.'
+    secrets:
+      token:
+        required: true
+      sops_age_key:
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    concurrency: 
+      group: ${{ github.workflow }}-${{ inputs.image}}-${{ github.ref }}
+      cancel-in-progress: true
+    outputs:
+      image_name: ${{ steps.split.outputs._0 }}
+      tag_name: ${{ steps.split.outputs._1 }}
+      tags: ${{ steps.docker_metadata.outputs.tags }}
+      digest: ${{ steps.docker_build.outputs.digest }}
+
+    steps:
+      - id: tolower_image
+        uses: ASzc/change-string-case-action@d0603cd0a7dd490be678164909f65c7737470a7f
+        with:
+          string: ${{ inputs.image }}
+
+      - name: checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: mdgreenwald/mozilla-sops-action@d9714e521cbaecdae64a89d2fdd576dd2aa97056
+        if: inputs.sops
+
+      - name: docker - login
+        id: docker_login
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
+        with:
+          registry: ${{ inputs.registry }}
+          username: ${{ inputs.username }}
+          password: ${{ secrets.token }}
+
+      - name: docker - extract metadata
+        id: docker_metadata
+        uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804 # v5.7.0
+        with:
+          images: ${{ inputs.registry }}/${{ steps.tolower_image.outputs.lowercase }}
+          flavor: |
+            latest=false
+            prefix=${{ inputs.ws }}
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
+      
+      - name: run pre hook
+        run: |
+          export SOPS_AGE_KEY="${{ secrets.sops_age_key }}"
+          export WORKSPACE="${{ inputs.ws }}"
+          ./hook.sh
+
+      - name: Build and cache
+        id: docker_build
+        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
+        env:
+          DOCKER_BUILDKIT: "1"
+        with:
+          context: ${{ inputs.context }}
+          push: true
+          tags: ${{ steps.docker_metadata.outputs.tags }}
+          labels: ${{ steps.docker_metadata.outputs.labels }}
+          cache-from: type=gha,ref=${{ steps.docker_metadata.outputs.tags }}-cache
+          cache-to: type=gha,mode=max,ref=${{ steps.docker_metadata.outputs.tags }}-cache
+
+      - uses: jungwinter/split@7f51d99e7cc1f147f6f99be75acf5e641930af88 # v2.1.0
+        id: split
+        with:
+          msg: ${{ steps.docker_metadata.outputs.tags }}
+          separator: ":"

@@ -40,25 +40,25 @@ jobs:
         url: ${{ (inputs.environment_url != '' && inputs.environment_url ) || steps.deploy.outputs.environment_url }}
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: docker - login container registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.token }}
 
-      - uses: mdgreenwald/mozilla-sops-action@v1.2.0
+      - uses: mdgreenwald/mozilla-sops-action@d9714e521cbaecdae64a89d2fdd576dd2aa97056
         if: inputs.sops
 
-      - uses: yokawasa/action-setup-kube-tools@v0.8.2
+      - uses: yokawasa/action-setup-kube-tools@9e25a4277af127b60011c95b6ed2da7e3b3613b1
         with:
           setup-tools: |
             skaffold
           skaffold: ${{ inputs.version }}
   
-      - uses: azure/k8s-set-context@v2
+      - uses: azure/k8s-set-context@212a19233d93f03eceaac31ae5a1d1acf650b6ef
         name: set kube context
         with:
           method: kubeconfig

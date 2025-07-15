@@ -27,6 +27,9 @@ on:
         required: true
         type: string
       ws:
+        required: true
+        type: string
+      tag_prefix:
         required: false
         type: string
       sops:
@@ -85,7 +88,7 @@ jobs:
           images: ${{ inputs.registry }}/${{ steps.tolower_image.outputs.lowercase }}
           flavor: |
             latest=false
-            prefix=${{ inputs.ws }}
+            prefix=${{ inputs.tag_prefix }}
 
       - name: Set up Docker Buildx
         id: buildx

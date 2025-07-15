@@ -27,7 +27,7 @@ on:
         required: true
         type: string
       ws:
-        required: true
+        required: false
         type: string
       sops:
         required: false

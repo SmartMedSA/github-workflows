@@ -1,0 +1,41 @@
+name: update-gitops-repo
+
+on:
+  workflow_call:
+    inputs:
+      path:
+        required: true
+        type: string
+      image:
+        required: true
+        type: string
+      tag:
+        required: true
+        type: string
+    secrets:
+      token:
+        required: true
+jobs:
+  update-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: install yq
+        uses: dcarbone/install-yq-action@v1.1.1
+      - name: checkout code
+        uses: actions/checkout@v4
+        with:
+          repository: "smartmedsa/protime-gitops"
+          token: ${{ secrets.token }}
+          ref: master
+      - name: update values file
+        run: |
+          cd ${{ inputs.path }} || exit 1
+          git config --global user.name "SmartMedBot"
+          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          HASH=$(echo "${{ inputs.tag }}" | cut -d':' -f2)
+          yq e -i '.image.repository = "${{ inputs.image }}"' values.yaml
+          yq e -i ".image.tag = \"$HASH\"" values.yaml
+          git add values.yaml
+          git commit -m "chore(cd): update image"
+          git push
+

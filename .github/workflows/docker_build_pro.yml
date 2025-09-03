@@ -102,7 +102,7 @@ jobs:
         run: |
           export SOPS_AGE_KEY="${{ secrets.sops_age_key }}"
           export WORKSPACE="${{ inputs.ws }}"
-          ./hook.sh
+          scripts/hook.sh
           if [[ $WORKSPACE =~ ^pro ]]; then
             scripts/patch .
           fi

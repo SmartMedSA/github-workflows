@@ -35,6 +35,7 @@ jobs:
           HASH=$(echo "${{ inputs.tag }}" | cut -d':' -f2)
           yq e -i '.image.repository = "${{ inputs.image }}"' values.yaml
           yq e -i ".image.tag = \"$HASH\"" values.yaml
+          git pull
           git add values.yaml
           git commit -m "chore(cd): update image"
           git push

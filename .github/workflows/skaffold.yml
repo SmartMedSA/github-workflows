@@ -69,13 +69,13 @@ jobs:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBECONFIG }}
 
-      - name: configure helm repo
-        id: helm_repo_config
-        if: inputs.use_private_charts
-        run: |
-          helm repo add smartmedsa https://smartmedsa.github.io/helm-charts/
-          helm repo update smartmedsa
-          helm registry login ghcr.io -u ${{ github.actor }} -p ${{ secrets.token }}
+      # - name: configure helm repo
+      #   id: helm_repo_config
+      #   if: inputs.use_private_charts
+      #   run: |
+      #     helm repo add smartmedsa https://smartmedsa.github.io/helm-charts/
+      #     helm repo update smartmedsa
+      #     helm registry login ghcr.io -u ${{ github.actor }} -p ${{ secrets.token }}
 
       - name: deploy
         id: deploy

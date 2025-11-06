@@ -99,9 +99,6 @@ jobs:
           export SOPS_AGE_KEY="${{ secrets.sops_age_key }}"
           export WORKSPACE="${{ inputs.ws }}"
           ./hook.sh
-          if [[ $WORKSPACE =~ ^pro ]]; then
-            scripts/patch .
-          fi
 
       - name: Build and cache
         id: docker_build

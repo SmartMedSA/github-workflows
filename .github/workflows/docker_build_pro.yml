@@ -107,6 +107,7 @@ jobs:
           DOCKER_BUILDKIT: "1"
         with:
           context: ${{ inputs.context }}
+          build-args: GIT_COMMIT_SHA=${{ github.sha }}
           push: true
           tags: ${{ steps.docker_metadata.outputs.tags }}
           labels: ${{ steps.docker_metadata.outputs.labels }}

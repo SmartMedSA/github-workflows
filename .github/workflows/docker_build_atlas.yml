@@ -26,9 +26,6 @@ on:
       image:
         required: true
         type: string
-      ws:
-        required: true
-        type: string
       tag_prefix:
         required: false
         type: string
